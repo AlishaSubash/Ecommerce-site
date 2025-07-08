@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - Let's Shop</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .form-container {
+      background: #fff;
+      padding: 40px 30px 30px 30px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      text-align: center;
+    }
+    .form-container h1 {
+      margin-bottom: 10px;
+      color: #28a745;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #222;
+      font-size: 1.2rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1.5px solid #43c6ac;
+      font-size: 1rem;
+      background: #f8ffae;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="tel"]:focus {
+      border: 1.5px solid #28a745;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px 0;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.18s;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .login-link {
+      display: inline-block;
+      padding: 10px 22px;
+      background: #007bff;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 18px;
+      transition: background 0.2s;
+    }
+    .login-link:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 18px 2vw;
+        margin: 20px 2vw 0 2vw;
+      }
+      .form-container h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Let's Shop</h1>
+    <h2>Create Account</h2>
+    <form action="{% url 'signup' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" name="name" placeholder="First Name" required />
+      <input type="text" name="lname" placeholder="Last Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="text" name="username" placeholder="Username" required />     
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Create Account</button>
+    </form>
+    <div>
+      <a href="{% url 'login' %}" class="login-link">Already have an account? Login</a>
+    </div>
+  </div>
+</body>
+</html>

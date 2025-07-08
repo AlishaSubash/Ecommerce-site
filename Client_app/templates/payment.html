@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proceed to Payment - Let's Shop</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8ffae; margin: 0; }
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 40px 30px; }
+        h2 { color: #28a745; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px 0; border-bottom: 1px solid #eee; }
+        .back-btn { display: inline-block; margin-top: 30px; padding: 10px 22px; background: #43c6ac; color: #fff; border-radius: 7px; text-decoration: none; font-weight: bold; }
+        .back-btn:hover { background: #28a745; }
+        .pay-btn { background: #ff9800; color: #fff; border: none; border-radius: 7px; padding: 12px 28px; font-size: 1rem; font-weight: bold; margin-top: 30px; cursor: pointer; }
+        .pay-btn:hover { background: #e65100; }
+        .total-amount { font-size: 2rem; color: #e65100; font-weight: bold; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Proceed to Payment</h2>
+        <ul>
+            {% for item in items %}
+                <li>{{ item.product.name }} ({{ item.quantity }}) - ₹{{ item.product.price }} each</li>
+            {% endfor %}
+        </ul>
+        <div class="total-amount">
+            Total: ₹{{ total }}
+        </div>
+        <!-- Payment form or integration goes here -->
+         <form method="post" action="{% url 'place_order' %}">
+            {% csrf_token %}
+            <button type="submit" class="back-btn" style="background:#2846a7;">Place Order</button>
+        </form>
+        
+        <a href="{% url 'cart' %}" class="back-btn">Back to Cart</a>
+    </div>
+</body>
+</html>

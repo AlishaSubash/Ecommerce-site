@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background: #fff;
+            padding: 40px 30px 30px 30px;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #222;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #43c6ac;
+            font-size: 1rem;
+            background: #f8ffae;
+            transition: border 0.2s;
+        }
+        .form-group input:focus {
+            border: 1.5px solid #28a745;
+            outline: none;
+        }
+        .login-button {
+            width: 100%;
+            padding: 12px 0;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.18s;
+            margin-top: 5px;
+        }
+        .login-button:hover {
+            background: #218838;
+        }
+        .extra-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .extra-links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+        .signup-nav {
+            margin-top: 25px;
+        }
+        .signup-nav a {
+            display: inline-block;
+            padding: 10px 22px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .signup-nav a:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 20px 10px 15px 10px;
+                max-width: 95vw;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Let's Shop</h2>
+        <form action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <div class="extra-links">
+            <!-- No changes for forgot password link -->
+        </div>
+        <div class="signup-nav">
+            <a href="{% url 'signup' %}">Don't have an account? Sign Up</a>
+        </div>
+    </div>
+</body>

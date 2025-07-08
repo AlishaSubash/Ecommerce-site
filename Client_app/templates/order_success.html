@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Placed</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8ffae; margin: 0; }
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 40px 30px; text-align: center;}
+        h2 { color: #28a745; }
+        .order-details { margin-top: 30px; }
+        .back-btn { display: inline-block; margin-top: 30px; padding: 10px 22px; background: #43c6ac; color: #fff; border-radius: 7px; text-decoration: none; font-weight: bold; }
+        .back-btn:hover { background: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Order Placed Successfully!</h2>
+        <div class="order-details">
+            <p>Your order ID: <strong>{{ order.id }}</strong></p>
+            <p>Total Amount: <strong>₹{{ order.total }}</strong></p>
+        </div>
+        <a href="{% url 'home' %}" class="back-btn">Continue Shopping</a>
+    </div>
+</body>
+</html>

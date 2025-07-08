@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Orders - Let's Shop</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8ffae; margin: 0; }
+        .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 40px 30px; }
+        h2 { color: #28a745; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background: #43c6ac; color: #fff; }
+        tr:hover { background: #f8ffae; }
+        .order-items ul { margin: 0; padding-left: 18px; }
+        .search-form { margin-bottom: 20px; text-align: right; }
+        .status-form { display: inline; }
+        .status-select { padding: 6px 12px; border-radius: 5px; border: 1px solid #43c6ac; }
+        .status-btn { padding: 6px 14px; border-radius: 5px; background: #43c6ac; color: #fff; border: none; font-weight: bold; margin-left: 6px; }
+        .status-btn:hover { background: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+         <a href="{% url 'admin_dashboard' %}" style="display:inline-block; margin-bottom:20px; padding:10px 22px; background:#43c6ac; color:#fff; border-radius:7px; text-decoration:none; font-weight:bold;">
+            &larr; Back to Dashboard
+        </a>
+        <h2>All Orders</h2>
+        <form method="get" class="search-form">
+            <input type="number" name="order_id" placeholder="Search by Order ID" value="{{ search_id }}" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" class="status-btn" style="padding: 8px 18px;">Search</button>
+        </form>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Items</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <form method="post" action="{% url 'update_order_status' order.id %}" class="status-form">
+                        {% csrf_token %}
+                        <select name="status" class="status-select">
+                            {% for key, val in order.STATUS_CHOICES %}
+                                <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>{{ val }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="status-btn">Update</button>
+                    </form>
+                </td>
+                <td>₹{{ order.total }}</td>
+                <td class="order-items">
+                    <ul>
+                        {% for item in order.items.all %}
+                        <li>{{ item.product.name }} (x{{ item.quantity }}) - ₹{{ item.price }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align:center;">No orders found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Reports - Let's Shop</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8ffae; margin: 0; }
+        .container { max-width: 1000px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 40px 30px; }
+        h2 { color: #28a745; }
+        .stats { display: flex; gap: 30px; margin-bottom: 40px; flex-wrap: wrap; }
+        .stat-card { background: #43c6ac; color: #fff; border-radius: 10px; padding: 24px 32px; min-width: 180px; flex: 1; text-align: center; }
+        .stat-card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .stat-card .stat-value { font-size: 2rem; font-weight: bold; }
+        .charts { display: flex; flex-wrap: wrap; gap: 40px; }
+        .chart-container { flex: 1; min-width: 320px; }
+        .back-btn { display: inline-block; margin-bottom: 30px; padding: 10px 22px; background: #43c6ac; color: #fff; border-radius: 7px; text-decoration: none; font-weight: bold; }
+        .back-btn:hover { background: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">&larr; Back to Dashboard</a>
+        <h2>Website Reports & Analytics</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Products</h3>
+                <div class="stat-value">{{ total_products }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>In Stock</h3>
+                <div class="stat-value">{{ total_in_stock }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Orders</h3>
+                <div class="stat-value">{{ total_orders }}</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Sales</h3>
+                <div class="stat-value">₹{{ total_sales }}</div>
+            </div>
+        </div>
+        <div class="charts">
+            <div class="chart-container">
+                <h3>Sales Progress (Monthly)</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Top 5 Products Sold</h3>
+                <canvas id="topProductsChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Embed data safely for JavaScript -->
+    {{ sales_by_month|json_script:"sales-by-month-data" }}
+    {{ top_products|json_script:"top-products-data" }}
+    <script>
+        // Sales by month
+        const salesLabels = JSON.parse(document.getElementById('sales-by-month-data').textContent);
+        const salesMonths = salesLabels.map(item => item.month);
+        const salesTotals = salesLabels.map(item => item.total);
+
+        new Chart(document.getElementById('salesChart'), {
+            type: 'line',
+            data: {
+                labels: salesMonths,
+                datasets: [{
+                    label: 'Sales (₹)',
+                    data: salesTotals,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(67,198,172,0.15)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Top products
+        const topProducts = JSON.parse(document.getElementById('top-products-data').textContent);
+        const productNames = topProducts.map(item => item.product__name);
+        const productSold = topProducts.map(item => item.sold);
+
+        new Chart(document.getElementById('topProductsChart'), {
+            type: 'bar',
+            data: {
+                labels: productNames,
+                datasets: [{
+                    label: 'Units Sold',
+                    data: productSold,
+                    backgroundColor: '#43c6ac'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>

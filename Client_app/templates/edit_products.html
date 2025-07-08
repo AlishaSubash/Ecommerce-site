@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Products - Let's Shop</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 18px 40px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .navbar .brand {
+            font-size: 28px;
+            font-weight: bold;
+            color: #28a745;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 0 #e0e0e0;
+        }
+        .navbar .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+        .logout-button {
+            padding: 10px 22px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-left: 10px;
+        }
+        .logout-button:hover {
+            background-color: #b52a37;
+        }
+        .add-button {
+            background: #007bff;
+            color: #fff;
+            margin-right: 10px;
+        }
+        .add-button:hover {
+            background: #0056b3;
+        }
+        .home-container {
+            max-width: 1100px;
+            margin: 30px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .category-filter {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .category-filter label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .category-filter select {
+            padding: 8px 16px;
+            border-radius: 7px;
+            border: 1.5px solid #43c6ac;
+            font-size: 16px;
+            background: #f8ffae;
+            transition: border 0.2s;
+        }
+        .category-filter select:focus {
+            border: 1.5px solid #28a745;
+            outline: none;
+        }
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .product-card {
+            background: linear-gradient(120deg, #f8ffae 60%, #43c6ac 100%);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(67,198,172,0.10);
+            padding: 22px 16px 18px 16px;
+            width: 210px;
+            text-align: center;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(67,198,172,0.18);
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 1.5px solid #43c6ac;
+        }
+        .product-card .product-name {
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .product-card .product-price {
+            color: #28a745;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .edit-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 7px 16px;
+            background: #ffc107;
+            color: #333;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.18s;
+            border: none;
+            cursor: pointer;
+        }
+        .edit-btn:hover {
+            background: #e0a800;
+        }
+        .delete-btn {
+            display: inline-block;
+            margin-top: 8px;
+            margin-left: 8px;
+            padding: 7px 16px;
+            background: #dc3545;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .delete-btn:hover {
+            background: #b52a37;
+        }
+        @media (max-width: 900px) {
+            .products-grid { gap: 18px; }
+            .product-card { width: 45vw; min-width: 180px; }
+            .home-container { padding: 18px 5vw; }
+        }
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; align-items: flex-start; padding: 12px 10px; }
+            .home-container { padding: 10px 2vw; }
+            .products-grid { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Let's Shop</div>
+        <div class="nav-actions">
+            <a href="{% url 'admin_dashboard' %}" class="logout-button add-button">Back to Dashboard</a>
+            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+        </div>
+    </div>
+    <div class="home-container">
+        <div class="section-title">Edit Products</div>
+        <form method="get" style="display: flex; align-items: center; gap: 16px; justify-content: center; margin-bottom: 24px;">
+            <label for="category-select" style="margin-bottom:0;">Category:</label>
+            <select id="category-select" name="category"
+                style="padding: 10px 18px; border-radius: 8px; border: 1.5px solid #43c6ac; font-size: 17px; background: #f8ffae;">
+                <option value="all" {% if selected_category == 'all' %}selected{% endif %}>All</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name|title }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="search" placeholder="Search products..." value="{{ request.GET.search }}"
+                style="padding: 10px; width: 180px; border-radius: 6px; border: 1px solid #ccc;">
+            <button type="submit"
+                style="padding: 10px 20px; border-radius: 6px; background: #43c6ac; color: #fff; border: none; font-weight: bold;">
+                Filter
+            </button>
+        </form>
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card" data-category="{{ product.categ.id }}">
+                <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price">₹{{ product.price }}</div>
+                <a href="{% url 'edit_product' product.id %}" class="edit-btn">Edit</a>
+                <form method="post" action="{% url 'delete_product' product.id %}" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </div>
+            {% empty %}
+            <div style="width:100%;text-align:center;color:#888;font-size:1.2rem;padding:40px 0;">
+                No products available.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

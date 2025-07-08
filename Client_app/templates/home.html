@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Let's Shop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 18px 40px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.09);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .navbar .brand {
+            font-size: 28px;
+            font-weight: bold;
+            color: #28a745;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 0 #e0e0e0;
+        }
+        .navbar .categories {
+            margin-left: 40px;
+        }
+        .navbar .categories label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .navbar .categories select {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1.5px solid #43c6ac;
+            font-size: 17px;
+            width: 300px;
+            background: #f8ffae;
+            transition: border 0.2s;
+        }
+        .navbar .categories select:focus {
+            border: 1.5px solid #28a745;
+            outline: none;
+        }
+        .navbar .nav-actions {
+            display: flex;
+            align-items: center;
+        }
+        .logout-button {
+            padding: 10px 22px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-left: 10px;
+        }
+        .logout-button:hover {
+            background-color: #b52a37;
+        }
+        .add-button {
+            background: #007bff;
+            color: #fff;
+            margin-right: 10px;
+        }
+        .add-button:hover {
+            background: #0056b3;
+        }
+        .hero-section {
+            background: linear-gradient(90deg, #43c6ac 60%, #f8ffae 100%);
+            padding: 48px 0 32px 0;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(67,198,172,0.08);
+        }
+        .hero-section h1 {
+            font-size: 2.7rem;
+            color: #222;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .hero-section p {
+            color: #444;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .hero-categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        .category-card {
+            width:130px;
+            margin:10px 0;
+            text-align:center;
+            cursor:pointer;
+            background:#f8ffae;
+            border-radius:18px;
+            box-shadow:0 2px 12px rgba(67,198,172,0.10);
+            padding:18px 8px;
+            transition: box-shadow 0.18s, transform 0.18s;
+        }
+        .category-card:hover {
+            box-shadow: 0 8px 32px rgba(67,198,172,0.18);
+            transform: translateY(-5px) scale(1.04);
+        }
+        .category-card img {
+            width:90px;
+            height:90px;
+            object-fit:cover;
+            border-radius:50%;
+            background:#fff;
+            display:block;
+            margin:auto;
+        }
+        .category-card .cat-label {
+            margin-top:12px;
+            font-weight:bold;
+            font-size:1.1rem;
+        }
+        .home-container {
+            max-width: 1100px;
+            margin: 30px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .product-card {
+            background: linear-gradient(120deg, #f8ffae 60%, #43c6ac 100%);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(67,198,172,0.10);
+            padding: 22px 16px 18px 16px;
+            width: 210px;
+            text-align: center;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(67,198,172,0.18);
+        }
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 1.5px solid #43c6ac;
+        }
+        .product-card .product-name {
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        .product-card .product-price {
+            color: #28a745;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .cart-btn {
+            margin-top: 10px;
+            padding: 9px 20px;
+            background: linear-gradient(90deg, #ff9800 60%, #ff5722 100%);
+            color: #fff;
+            border-radius: 7px;
+            border: none;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255,152,0,0.15);
+            transition: background 0.18s, transform 0.12s;
+            letter-spacing: 1px;
+        }
+        .cart-btn:hover {
+            background: linear-gradient(90deg, #ff5722 60%, #ff9800 100%);
+            transform: scale(1.06);
+        }
+        .remove-btn {
+            margin-left: 10px;
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .remove-btn:hover {
+            background: #b52a37;
+        }
+        @media (max-width: 900px) {
+            .products-grid { gap: 18px; }
+            .product-card { width: 45vw; min-width: 180px; }
+            .home-container { padding: 18px 5vw; }
+            .hero-categories { gap: 14px; }
+        }
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; align-items: flex-start; padding: 12px 10px; }
+            .navbar .categories { margin: 10px 0 0 0; }
+            .home-container { padding: 10px 2vw; }
+            .hero-section { padding: 28px 0 18px 0; }
+            .hero-categories { flex-direction: column; align-items: center; gap: 10px; }
+            .category-card { width: 90vw; }
+        }
+    </style>
+    <script>
+        function filterCategory() {
+            var selected = document.getElementById('category-select').value;
+            var cards = document.getElementsByClassName('product-card');
+            for (var i = 0; i < cards.length; i++) {
+                var cat = cards[i].getAttribute('data-category');
+                if (selected === "all" || cat === selected) {
+                    cards[i].style.display = "inline-block";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+        function addToCart(id, name, price, image) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let found = cart.find(item => item.id === id);
+            if (found) {
+                found.qty += 1;
+            } else {
+                cart.push({id, name, price, image, qty: 1});
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            if (typeof updateCartCount === "function") updateCartCount();
+        }
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        function showCart() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let cartItemsDiv = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = "<div style='color:#888;'>Your cart is empty.</div>";
+                document.getElementById('cart-total').innerText = '';
+            } else {
+                let html = '<ul style="list-style:none;padding:0;">';
+                let total = 0;
+                cart.forEach(item => {
+                    html += `<li style="margin-bottom:12px;display:flex;align-items:center;">
+                        <img src="${item.image}" style="width:40px;height:40px;border-radius:6px;margin-right:10px;">
+                        <span style="flex:1;">${item.name}</span>
+                        <button onclick="decreaseQty(${item.id})" style="margin:0 6px;background:#ff9800;color:#fff;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;">−</button>
+                        <span>x${item.qty}</span>
+                        <button onclick="increaseQty(${item.id})" style="margin:0 6px;background:#28a745;color:#fff;border:none;border-radius:4px;padding:2px 8px;cursor:pointer;">+</button>
+                        <span style="margin-left:10px;">₹${item.price * item.qty}</span>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                    </li>`;
+                    total += item.price * item.qty;
+                });
+                html += '</ul>';
+                cartItemsDiv.innerHTML = html;
+                document.getElementById('cart-total').innerText = "Total: ₹" + total;
+            }
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function increaseQty(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let found = cart.find(item => item.id === id);
+            if (found) {
+                found.qty += 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                showCart();
+                updateCartCount();
+            }
+        }
+
+        function decreaseQty(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let found = cart.find(item => item.id === id);
+            if (found) {
+                found.qty -= 1;
+                if (found.qty <= 0) {
+                    cart = cart.filter(item => item.id !== id);
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                showCart();
+                updateCartCount();
+            }
+        }
+
+        function removeFromCart(id) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showCart();
+            updateCartCount();
+        }
+
+        function hideCart() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        window.onload = updateCartCount;
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Let's Shop</div>
+        <div class="categories">
+            <label for="category-select">Category:</label>
+            <select id="category-select" onchange="location.href='?category=' + this.value;">
+                <option value="all">All</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name|title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        
+
+        <div class="nav-actions">
+            <a href="{% url 'cart' %}" class="logout-button" style="background:#ff9800;">Cart</a>
+            <a href="{% url 'user_orders' %}" class="logout-button" style="background:#43c6ac;">Orders</a>
+            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+        </div>
+    </div>
+    <div class="hero-section">
+        <h1>Let's Shop</h1>
+        <p>Discover the best deals and latest products. Enjoy a seamless shopping experience!</p>
+        <div class="hero-categories">
+            {% for cat in categories %}
+            <div class="category-card" onclick="document.getElementById('category-select').value='{{ cat }}';filterCategory();">
+                {% if cat|lower == "electronics" %}
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=90&q=80" alt="Electronics">
+                {% elif cat|lower == "fashion" %}
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=90&q=80" alt="Fashion">
+                {% elif cat|lower == "home" %}
+                    <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=90&q=80" alt="Home">
+                {% elif cat|lower == "home decor" %}
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=90&q=80" alt="Home Decor">
+                {% elif cat|lower == "books" %}
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=90&q=80" alt="Books">
+                {% elif cat|lower == "sports" %}
+                    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=90&q=80" alt="Sports">
+                {% elif cat|lower == "toys" %}
+                    <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=90&q=80" alt="Toys">
+                {% elif cat|lower == "beauty" or cat|lower == "cosmetics" %}
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=90&q=80" alt="Beauty">
+                {% elif cat|lower == "groceries" %}
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=90&q=80" alt="Groceries">
+                {% elif cat|lower == "appliances" %}
+                    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=90&q=80" alt="Appliances">
+                {% elif cat|lower == "furniture" %}
+                    <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=90&q=80" alt="Furniture">
+                {% elif cat|lower == "footwear" %}
+                    <img src="https://images.unsplash.com/photo-1465101178521-c1a9136a3b41?auto=format&fit=crop&w=90&q=80" alt="Footwear">
+                {% elif cat|lower == "jewellery" or cat|lower == "jewelry" %}
+                    <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=90&q=80" alt="Jewellery">
+                {% elif cat|lower == "stationery" %}
+                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=90&q=80" alt="Stationery">
+                {% elif cat|lower == "automotive" %}
+                    <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=90&q=80" alt="Automotive">
+                {% elif cat|lower == "health" %}
+                    <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=90&q=80" alt="Health">
+                {% elif cat|lower == "music" %}
+                    <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=90&q=80" alt="Music">
+                {% elif cat|lower == "pets" %}
+                    <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=90&q=80" alt="Pets">
+                {% elif cat|lower == "mobile" or cat|lower == "mobiles" %}
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=90&q=80" alt="Mobile">
+                {% else %}
+                    <img src="https://img.icons8.com/fluency/96/000000/shopping-cart.png" alt="{{ cat|title }}">
+                {% endif %}
+                <div class="cat-label">{{ cat|title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <form method="get" action="{% url 'home' %}" style="margin-bottom: 24px; text-align: center;">
+        <input type="text" name="search" placeholder="Search products..." value="{{ request.GET.search }}" style="padding: 10px; width: 180px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}" style="padding: 10px; width: 100px; border-radius: 6px; border: 1px solid #ccc;">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}" style="padding: 10px; width: 100px; border-radius: 6px; border: 1px solid #ccc;">
+        <button type="submit" style="padding: 10px 20px; border-radius: 6px; background: #ebeb47; color: #131212; border: none; font-weight: bold;">Filter</button>
+    </form>
+
+    <div class="home-container">
+        <div class="section-title">Featured Products</div>
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card" data-category="{{ product.category }}">
+                <img src="{{ product.product_image.url }}" alt="{{ product.name }}">
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price">₹{{ product.price }}</div>
+                <a href="{% url 'product_detail' product.id %}" class="cart-btn">View Details</a>
+            </div>
+            {% empty %}
+            <div style="width:100%;text-align:center;color:#888;font-size:1.2rem;padding:40px 0;">
+                No products available in this category.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:12px; padding:30px; min-width:320px; max-width:90vw; margin:auto; position:relative;">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total" style="margin-top:18px; font-weight:bold;"></div>
+            <button onclick="hideCart()" style="margin-top:20px; background:#dc3545; color:#fff; border:none; border-radius:6px; padding:10px 22px; font-size:15px; cursor:pointer;">Close</button>
+        </div>
+    </div>
+</body>
+</html>

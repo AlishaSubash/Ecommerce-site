@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Product - Let's Shop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            margin: 50px auto 0 auto;
+            padding: 40px 30px 30px 30px;
+            border-radius: 16px;
+            max-width: 420px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #28a745;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        select {
+            width: 100%;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #43c6ac;
+            font-size: 1rem;
+            background: #f8ffae;
+            transition: border 0.2s;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="file"]:focus,
+        select:focus {
+            border: 1.5px solid #28a745;
+            outline: none;
+        }
+        button[type="submit"] {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.18s;
+            margin-top: 5px;
+        }
+        button[type="submit"]:hover:not(.delete-btn) {
+            background: #218838;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            margin-top: 18px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .delete-btn:hover {
+            background: #b52a37;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px 2vw;
+                margin: 20px 2vw 0 2vw;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Product</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" value="{{ product.name }}" required placeholder="Product Name" />
+            <input type="number" name="price" value="{{ product.price }}" required placeholder="Price" />
+            <input type="number" name="stock" value="{{ product.stock }}" required placeholder="Stock" />
+            <select name="categ" id="categ" required>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}"
+                        {% if product.categ.id == cat.id %}selected{% endif %}>
+                        {{ cat.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <textarea name="description" id="description" style="width:100%;padding:8px;border-radius:4px;border:1px solid #ccc;" rows="4" required placeholder="Description">{{ product.description }}</textarea>
+            <input type="file" name="image" />
+            <button type="submit">Save Changes</button>
+        </form>
+        <form method="post" action="{% url 'delete_product' product.id %}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn">Delete Product</button>
+        </form>
+    </div>
+</body>
+</html>

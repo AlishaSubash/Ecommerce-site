@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} - Details</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8ffae; margin: 0; }
+        .container { max-width: 700px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 40px 30px; }
+        .product-img { width: 300px; height: 300px; object-fit: contain; border-radius: 12px; background: #f8ffae; margin-bottom: 20px; }
+        .back-btn { display: inline-block; margin-top: 30px; padding: 10px 22px; background: #43c6ac; color: #fff; border-radius: 7px; text-decoration: none; font-weight: bold; }
+        .back-btn:hover { background: #28a745; }
+        .cart-btn {
+        display: inline-block;
+        padding: 16px 36px;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        background: #c643c2;
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.2s;
+        }
+        .cart-btn:hover {
+        background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ product.name }}</h2>
+        <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="product-img">
+        <p><strong>Price:</strong> ₹{{ product.price }}</p>
+        <p><strong>Category:</strong> {{ product.categ.name}}</p>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <!-- Add more fields as needed -->
+        <a href="{% url 'add_to_cart' product.id %}" class="cart-btn">Add to Cart</a>
+        <a href="{% url 'cart' %}" class="back-btn">Go to Cart</a>
+        <a href="{% url 'home' %}" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>
